@@ -4,17 +4,19 @@ import random
 import subprocess
 import sys
 
+
+
 class Player:
     def __init__(self, location):
         self.location = location
 
 
 class Location:
-    def __init__(self, name="Room", type="ROOM", features=[], surroundings=[]):
+    def __init__(self, name="Unnamed Room", type="ROOM", features=[], exits=[]):
         self.name = name
         self.type = type
         self.features = features
-        self.surroundings = surroundings
+        self.exits = exits
 
 with open("../data/lifesim/roomTypes.json", "r") as file:
     Location.roomTypes = json.load(file)
@@ -25,71 +27,39 @@ class Npc:
         self.name = name
 
 
-debugOperations = [
-    ["/LOCATION", "/LOC", "/WHEREAMI", "/WHERE"], 
-    ["/EXECUTABLE", "/EXECUTABLEPATH", "/EXE", "/EXEPATH", "/PATH"], 
-    ["/ARGUMENTS", "/ARGS"]
-]
+def defineCommands():
 
-operations = [
-    ["!QUIT", "!EXIT", "!CLOSE", "!STOP", "!END", "!Q"], 
-    ["!RESTART", "!RESET", "!RELOAD", "!R"]
-]
+    global debugOperations
+    global operations
+    global actions
 
-actions = [
-    ["EXAMINE", "X", "LOOK", "LOOK AT"]
-]
+    debugOperations = [
+        ["/LOCATION", "/LOC", "/WHEREAMI", "/WHERE"], 
+        ["/EXECUTABLE", "/EXECUTABLEPATH", "/EXE", "/EXEPATH", "/PATH"], 
+        ["/ARGUMENTS", "/ARGS"], 
+        ["/TELEPORT", "/TP", "/TELE", "/GOTO", "/GO"]
+    ]
 
+    operations = [ # TODO add !HELP
+        ["!QUIT", "!EXIT", "!CLOSE", "!STOP", "!END", "!Q"], 
+        ["!RESTART", "!RESET", "!RELOAD", "!R"]
+    ]
+
+    actions = [
+        ["EXAMINE", "X", "LOOK", "LOOK AT"]
+    ]
+
+# TODO move this /data/lifesim/content.py, and later convert it to JSON
 def content():
     global room
-    room = Location("Sample Room", "FOREST", [], [])
+    room = Location("Sample Room", "FOREST")
+
+    global room2
+    room2 = Location("House", "ROOM")
 
     global player
     player = Player(room)
 
-
-def runCommandInterpreter():
-
-    cmd = input("> ").strip().upper()
-
-    if cmd in debugOperations[0]: # /LOCATION
-
-        print()
-        print("<DEBUG> You are currently in " + player.location.name + ".")
-        print("<DEBUG> Location type: " + player.location.type)
-        print("<DEBUG> Features: " + ", ".join(player.location.features))
-        print("<DEBUG> Surroundings: " + ", ".join(player.location.surroundings))
-    
-    elif cmd in debugOperations[1]: # /EXECUTABLE
-
-        print()
-        print("<DEBUG> Executable path: " + sys.executable)
-        print("<DEBUG> Executable name: " + os.path.basename(sys.executable))
-    
-    elif cmd in debugOperations[2]: # /ARGUMENTS
-
-        print()
-        print("<DEBUG> Arguments: " + " ".join(sys.argv))
-
-    elif cmd in operations[0]: # !QUIT
-
-        sys.exit(0)
-    
-    elif cmd in operations[1]: # !RESTART
-
-        print()
-        print("Restarting...")
-
-        subprocess.Popen([sys.executable] + sys.argv)
-        sys.exit(0)
-
-    elif cmd in actions[0]:
-        
-        print()
-        print("You examine the the surrounding area. You see:")
-        print(random.choice(Location.roomTypes[player.location.type]["DESCRIPTION"]))
-    
-    runCommandInterpreter()
 
 
 def main():
@@ -97,12 +67,17 @@ def main():
     #print("DEBUG: sys.executable =", sys.executable)
     #print("DEBUG: sys.argv =", sys.argv)
 
+
     content()
+    defineCommands()
+
+    
 
     print()
     print("You are located in " + player.location.name + ".")
     print()
-
+    
+    from commandInterpreter import runCommandInterpreter
     runCommandInterpreter()
 
 if __name__ == "__main__":
