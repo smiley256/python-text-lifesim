@@ -1,0 +1,58 @@
+{
+    "ROOM": {
+        "DESCRIPTION": [
+            "A small room with walls and a ceiling.",
+            "A room with walls and a ceiling.",
+            "A small room."
+        ]
+    },
+    "CITY": {
+        "DESCRIPTION": [
+            "A large city with many buildings.",
+            "A city with many buildings.",
+            "A large city."
+        ]
+    },
+    "FIELD": {
+        "DESCRIPTION": [
+            "A big grassy field.",
+            "A grassy field.",
+            "A very big grassy field."
+        ]
+    },
+    "FOREST": {
+        "DESCRIPTION": [
+            "A thick forest.",
+            "A very thick forest.",
+            "A dense forest."
+        ]
+    },
+    "CAVE": {
+        "DESCRIPTION": [
+            "A huge dark cave.",
+            "A huge cave.",
+            "A dark cave."
+        ]
+    },
+    "DESERT": {
+        "DESCRIPTION": [
+            "A hot sandy desert.",
+            "A sandy desert.",
+            "A hot desert."
+        ]
+    },
+    "MOUNTAIN": {
+        "DESCRIPTION": [
+            "A cold snowy mountain.",
+            "A snowy mountain.",
+            "A cold mountain."
+        ]
+    },
+    "EMPTY": {
+        "DESCRIPTION": [
+            "An empty space.",
+            "An empty area.",
+            "A void."
+        ]
+    }
+}
